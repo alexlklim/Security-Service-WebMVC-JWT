@@ -1,0 +1,51 @@
+
+spring:
+  application:
+    name: ${application.name}
+
+  datasource:
+    url: ${datasource.url}
+    username: ${datasource.username}
+    password: ${datasource.password}
+  jpa:
+    open-in-view: false
+
+  sql:
+    init:
+      mode: always
+      continue-on-error: false
+      schema-locations:
+        - classpath:database/schema.sql
+        - classpath:database/init.sql
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${mail.username}
+    password: ${mail.password}
+    properties:
+      mail:
+        debug: false
+        transport:
+          protocol: smtp
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+
+security:
+  auth:
+    base-url: ${security.base-url}
+
+
+
+server:
+  port: ${application.port}
+  address: 0.0.0.0
+
+logging:
+  level:
+    root: INFO
+    com.alex.leg: DEBUG
+springdoc:
+  override-with-generic-response: false
