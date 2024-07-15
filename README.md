@@ -25,6 +25,7 @@ This endpoint allows users to log in. It generates access and refresh tokens. Th
 
 ### Response 
 200 OK - everything is okay
+
 ```json
 {
     "first_name": "Alex",
@@ -35,7 +36,9 @@ This endpoint allows users to log in. It generates access and refresh tokens. Th
     "refresh_token": "d838226a-9295-4340-a9da-ce9a7fe8e506"
 }
 ```
+
 400 UNAUTHORIZED - something wrong
+
 ```json
 {
     "code": 401,
