@@ -1,7 +1,7 @@
 # Security Service with JWT token authentication
 Main Technologoies: Java, Spring Boot, Spring Security, Hibernate, JPA, MySQL, JMailSender, Swagger OpenAPI, Mapstruct, lombok
 
-# Project Title
+# Security service
 
 ## Login Request
 
@@ -20,7 +20,7 @@ This endpoint allows users to log in. It generates access and refresh tokens. Th
 {
     "email": "alex@gmail.com",
     "password": "1122"
-}
+} '''
 
 
 
