@@ -45,12 +45,13 @@ This endpoint allows users to log in. It generates access and refresh tokens. Th
     "message": "Authentication failed"
 }
 ```
+
 ### Request Body
 
 ```json
 {
-    "email": "alex@gmail.com",
-    "password": "1122"
+    "code": 401,
+    "message": "Authentication failed"
 }
 ```
 
