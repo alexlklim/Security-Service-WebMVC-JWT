@@ -31,7 +31,7 @@ This endpoint allows users to log in. It generates access and refresh tokens. Th
     "first_name": "Alex",
     "last_name": "Klim",
     "expires_at": "2024-06-20 10:35",
-    "role": [  "ADMIN" ],
+    "role": ["ADMIN" ],
     "access_token": "eyJhNiJ9.eyJY29tNTR9.lwLegVQPa1C8",
     "refresh_token": "d838226a-9295-4340-a9da-ce9a7fe8e506"
 }
