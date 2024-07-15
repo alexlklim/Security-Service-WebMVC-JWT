@@ -6,7 +6,7 @@ Main Technologoies: Java, Spring Boot, Spring Security, Hibernate, JPA, MySQL, J
 ## Login Request
 
 **Endpoint**:  
-`POST http://{{server}}:9095/api/v1/id_planner/auth/login`
+`POST http://{{server}}:9095/api/v1/security/auth/login`
 
 **Description**:  
 This endpoint allows users to log in. It generates access and refresh tokens. The access token is used to authorize requests, while the refresh token is used to obtain new tokens without re-entering credentials.
@@ -51,7 +51,7 @@ This endpoint allows users to log in. It generates access and refresh tokens. Th
 ## Logout Request
 
 **Endpoint**:  
-`GET http://{{server}}:9095/api/v1/id_planner/auth/logout`
+`GET http://{{server}}:9095/api/v1/security/auth/logout`
 
 **Description**:  
 This action deletes your refresh token from the database, making it impossible to obtain new tokens using the refresh endpoint. The access token will remain valid until its expiration date (approximately 5 minutes).
@@ -69,7 +69,7 @@ If everything is okay, you will receive a response with no additional content.
 ## Refresh Request
 
 **Endpoint**:  
-`POST http://{{server}}:9095/api/v1/id_planner/auth/refresh`
+`POST http://{{server}}:9095/api/v1/security/auth/refresh`
 
 **Description**:  
 This endpoint returns a new AuthDTO. Use this endpoint to obtain new access and refresh tokens if your access token has expired and you cannot access resources.
@@ -112,7 +112,7 @@ This endpoint returns a new AuthDTO. Use this endpoint to obtain new access and 
 ## Register User
 
 **Endpoint**:  
-`POST http://{server}:9095/api/v1/id_planner/auth/register`
+`POST http://{server}:9095/api/v1/security/auth/register`
 
 **Description**:  
 After a successful request, an email with a confirmation link will be sent to the specified email address in the request body. The server does not check if the token is expired.
@@ -156,13 +156,179 @@ After a successful request, an email with a confirmation link will be sent to th
 ## Activate User Account
 
 **Endpoint**:  
-`GET http://{server}:9095/api/v1/id_planner/auth/activate/{UUID}`
+`GET http://{server}:9095/api/v1/security/auth/activate/{UUID}`
 
 **Description**:  
 Users can use this link after registration to activate their accounts. The link contains a unique token. The server will find the user associated with this token and update their activation status.
 
 ### Responses
 
-**Success (200 OK)**:  
-If everything is okay, the user's account will be successfully activated.
+200 OK - everything is okay
 
+
+## Change Password
+
+**Endpoint**:  
+`GET http://{{server}}:9095/api/v1/security/auth/pw/change`
+
+**Description**:  
+This endpoint allows authenticated users to change their passwords.
+
+### Parameters
+
+- **Authorization**: Bearer token (required)
+- **Roles**: ADMIN, USER
+
+### Request Body
+
+```json
+{
+    "current_password": "1122",
+    "new_password": "1111"
+}
+```
+
+
+## Password Recovery
+
+**Endpoint**:  
+`POST http://{{server}}:9095/api/v1/security/auth/pw/recovery/{{$randomUUID}}`
+
+**Description**:  
+Users should click the link from the email (handled by the front-end) and send their new password in the body of the request to this endpoint. If the token does not exist, the server will return an Unauthorized response.
+
+### Request Body
+
+```json
+{
+    "password": "1122"
+}
+```
+
+## Get Info About Authenticated User
+
+**Endpoint**:  
+`GET http://{{server}}:9095/api/v1/security/auth`
+
+**Description**:  
+This endpoint retrieves information about the authenticated user.
+
+### Parameters
+
+- **Authorization**: Bearer token (required)
+
+### Responses
+
+**Success (200 OK)**:  
+If everything is okay, you will receive a response with user information:
+
+```json
+{
+    "id": 1,
+    "email": "alex@gmail.com",
+    "first_name": "Alex",
+    "last_name": "Klim",
+    "phone": null,
+    "is_active": true,
+    "last_activity": "2024-07-08 14:25",
+    "role": "ADMIN",
+    "active": true
+}
+```
+
+
+## Get User by ID
+
+**Endpoint**:  
+`GET http://{{server}}:9095/api/v1/security/users/{user_id}`
+
+**Description**:  
+This endpoint retrieves information about a specific user. Access is restricted to users with the ADMIN role.
+
+### Parameters
+
+- **Authorization**: Bearer token (required)
+- **Roles**: ADMIN (required)
+
+### Responses
+
+**Success (200 OK)**:  
+If everything is okay, you will receive a response with user information:
+
+```json
+{
+    "id": 1,
+    "email": "alex@gmail.com",
+    "first_name": "Alex",
+    "last_name": "Klim",
+    "phone": null,
+    "is_active": true,
+    "last_activity": "2024-07-08 14:25",
+    "role": "ADMIN",
+    "active": true
+}
+```
+
+
+## Get Users
+
+**Endpoint**:  
+`GET http://{{server}}:9095/api/v1/security/users`
+
+**Description**:  
+This endpoint retrieves a list of users. Access is restricted to users with the ADMIN role.
+
+### Parameters
+
+- **Authorization**: Bearer token (required)
+- **Roles**: ADMIN (required)
+
+### Responses
+
+**Success (200 OK)**:  
+If everything is okay, you will receive a response with a list of users:
+
+```json
+[
+    {
+        "id": 1,
+        "email": "alex@gmail.com",
+        "first_name": "Alex",
+        "last_name": "Klim",
+        "is_active": true,
+        "last_activity": "2024-07-08 14:28",
+        "role": "ADMIN",
+        "active": true
+    }
+]
+```
+
+## Update User (by Admin)
+
+**Endpoint**:  
+`PUT http://{{server}}:9095/api/v1/security/users/{user_id}`
+
+**Description**:  
+This endpoint allows an ADMIN to update user information. The following fields can be changed:
+- Email
+- Password
+- License details, including the start and end dates of the license
+
+### Parameters
+
+- **Authorization**: Bearer token (required)
+- **Roles**: ADMIN (required)
+
+### Request Body
+
+```json
+{
+    "email": "aldex@gmail.com",
+    "first_name": "Alddex",
+    "last_name": "Klddim",
+    "role": "ADMIN",
+    "active": true,
+    "activate_license_date": "2024-06-20",
+    "end_license_date": "2025-06-20",
+}
+```
