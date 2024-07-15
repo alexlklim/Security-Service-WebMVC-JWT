@@ -309,10 +309,7 @@ If everything is okay, you will receive a response with a list of users:
 `PUT http://{{server}}:9095/api/v1/security/users/{user_id}`
 
 **Description**:  
-This endpoint allows an ADMIN to update user information. The following fields can be changed:
-- Email
-- Password
-- License details, including the start and end dates of the license
+This endpoint allows an ADMIN to update user information.
 
 ### Parameters
 
@@ -327,8 +324,6 @@ This endpoint allows an ADMIN to update user information. The following fields c
     "first_name": "Alddex",
     "last_name": "Klddim",
     "role": "ADMIN",
-    "active": true,
-    "activate_license_date": "2024-06-20",
-    "end_license_date": "2025-06-20",
+    "active": true
 }
 ```
