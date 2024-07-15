@@ -3,6 +3,11 @@ Main Technologoies: Java, Spring Boot, Spring Security, Hibernate, JPA, MySQL, J
 
 # Security service
 
+Expiration time for access token is 5 minutes, for refresh token is 1 hour. If your access token is expired, send a refresh token to get a new one. If the refresh token is expired too, you need to login again. After logout your refresh-token will be deleted from DB, and It is not possible to get access tokens using them, but your access token will be active for several minutes until its expiration time is over. If you try to get a new access token, the service returns a new access token and refresh token. Both of them will be new. Don’t try to save them in cookies (because of their size, it is about 4KB), access token is very heavy for this, also sometimes Chrome doesn’t allow saving JWT in cookies, it is bad practice because of CSRF attack. With access token you can reach any service, it will be parsed by Spring Security. To get a refresh token ask the Authentication Service.
+The application uses BCryptPasswordEncoder for encrypting passwords stored in the database.For encrypting access tokens, the application uses the BASE64 algorithm.
+Refresh tokens, unique to each user, are generated using UUIDs (Universally Unique Identifiers).
+The security system employs a hybrid approach combining JWT-based authorization with cookie-based authentication. This strategy enables stateless authorization while providing more control over the tokens.
+
 ## Login Request
 
 **Endpoint**:  
