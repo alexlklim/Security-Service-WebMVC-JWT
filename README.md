@@ -108,3 +108,61 @@ This endpoint returns a new AuthDTO. Use this endpoint to obtain new access and 
     "message": "Authentication failed"
 }
 ```
+
+## Register User
+
+**Endpoint**:  
+`POST http://{server}:9095/api/v1/id_planner/auth/register`
+
+**Description**:  
+After a successful request, an email with a confirmation link will be sent to the specified email address in the request body. The server does not check if the token is expired.
+
+### Request Body
+
+```json
+{
+    "first_name": "Alex",
+    "last_name": "Klim",
+    "phone": "48 788 202 134",
+    "email": "t.klimenko@csmm.pl",
+    "password": "1122",
+    "role": "USER"
+}
+```
+
+### Response 
+201 CREATED - everything is okay
+
+```json
+{
+    "first_name": "Alex",
+    "last_name": "Klim",
+    "expires_at": "2024-06-20 10:35",
+    "role": ["ADMIN" ],
+    "access_token": "eyJhNiJ9.eyJY29tNTR9.lwLegVQPa1C8",
+    "refresh_token": "d838226a-9295-4340-a9da-ce9a7fe8e506"
+}
+```
+
+409 CONFLICT - email is taken
+
+```json
+{
+    "code": 409,
+    "message": "User with email {} is already exists"
+}
+```
+
+## Activate User Account
+
+**Endpoint**:  
+`GET http://{server}:9095/api/v1/id_planner/auth/activate/{UUID}`
+
+**Description**:  
+Users can use this link after registration to activate their accounts. The link contains a unique token. The server will find the user associated with this token and update their activation status.
+
+### Responses
+
+**Success (200 OK)**:  
+If everything is okay, the user's account will be successfully activated.
+
